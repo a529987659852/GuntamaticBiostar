@@ -1,0 +1,17 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Diese Integration ist bereits konfiguriert."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "host": "IP-Adresse",
+                    "api_key": "API-Key (Bereitgestellt von Guntamatic)"
+                },
+                "description": "Richte die Guntamatic Biostar Integration ein.",
+                "title": "Guntamatic-Biostar-Integration in Home Assistant mittels API"
+            }
+        }
+    }
+}
