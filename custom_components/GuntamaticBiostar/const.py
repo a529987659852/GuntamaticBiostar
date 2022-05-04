@@ -96,7 +96,7 @@ SENSOR_DESC = [
     ),
     SensorEntityDescription(
         key="Raumtemp. HK 0",
-        name="Außentemperatur",
+        name="Raumtemp. HK 0",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
@@ -118,7 +118,7 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Betriebszeit",
         name="Betriebszeit",
-        #device_class=SensorDeviceClass.DURATION,
+        #   device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_HOURS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -197,6 +197,84 @@ SENSOR_DESC = [
         state_class=SensorStateClass.MEASUREMENT,
         # entity_category=EntityCategory.DIAGNOSTIC,
     ),
+# Daten vom alten API
+    SensorEntityDescription(
+        key="Austragmotor",
+        name="Austragmotor",
+        device_class=SensorDeviceClass.APPARENT_POWER,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="CO2 Soll",
+        name="CO2 Soll",
+        device_class=SensorDeviceClass.CO2,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="Kesselsolltemp",
+        name="Kesselsolltemperatur",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=TEMP_CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="Rauchgasauslastung",
+        name="Rauchgasauslastung",
+        device_class=SensorDeviceClass.APPARENT_POWER,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="Rost",
+        name="Rost",
+        device_class=SensorDeviceClass.APPARENT_POWER,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="Rücklauftemp. Soll",
+        name="Rücklauftemperatur Soll",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=TEMP_CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),    
+    SensorEntityDescription(
+        key="Rücklauftemp.",
+        name="Rücklauftemperatur",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=TEMP_CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ), 
+    SensorEntityDescription(
+        key="Saugzuggebläse",
+        name="Saugzuggebläse",
+        device_class=SensorDeviceClass.APPARENT_POWER,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="Vorlauf Soll 1",
+        name="Vorlauf Soll 1",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=TEMP_CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ), 
+    SensorEntityDescription(
+        key="Vorlauf Soll 2",
+        name="Vorlauf Soll 2",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=TEMP_CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ), 
+    SensorEntityDescription(
+        key="Wirkungsgrad",
+        name="Wirkungsgrad",
+        device_class=SensorDeviceClass.APPARENT_POWER,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
 ]
 """
 TODO
@@ -243,6 +321,27 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Kesselfreigabe",
         name="Kesselfreigabe",
+        device_class=BinarySensorDeviceClass.POWER,
+    ),
+# Daten vom alten aPI
+    BinarySensorEntityDescription(
+        key="Austragungsgebläse",
+        name="Austragungsgebläse",
+        device_class=BinarySensorDeviceClass.POWER,
+    ),
+    BinarySensorEntityDescription(
+        key="Füllstand",
+        name="Füllstand",
+        device_class=BinarySensorDeviceClass.POWER,
+    ),
+    BinarySensorEntityDescription(
+        key="Mischer 1",
+        name="Mischer 1",
+        device_class=BinarySensorDeviceClass.POWER,
+    ),
+    BinarySensorEntityDescription(
+        key="Mischer 2",
+        name="Mischer 2",
         device_class=BinarySensorDeviceClass.POWER,
     ),
 ]

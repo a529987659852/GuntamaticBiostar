@@ -69,6 +69,7 @@ class Biostar:
 
     async def _async_get_data(self) -> dict[str, Any]:
         """Retrieve data from AccuWeather API."""
+        data = {}
         params = {"key": self._api_key}
         async with self._session.get(
             f"http://{self._host}/ext/daqdesc.cgi", params=params
@@ -91,12 +92,53 @@ class Biostar:
             dataValues = await resp.json()
             # dataValues = dataValues.split('\n')[0:-1]
 
-        data = {}
         for i in range(len(dataDescription)):
             key = dataDescription[i].get("name")
             unitOfMeasurement = dataDescription[i].get("unit")
             dataValue = dataValues[i]
             data[key] = [dataValue, unitOfMeasurement]
+
+        # Get data from old API
+        async with self._session.get(
+            f"http://{self._host}/daqdesc.cgi", params=params
+        ) as resp:
+            if resp.status != 200:
+                # error_text = json.loads(await resp.text())
+                raise ApiError(f"Invalid response from Biostar API: {resp.status}")
+            _LOGGER.debug("Data retrieved from Biostar, status: %s", resp.status)
+            dataDescription = await resp.text()
+            dataDescription = dataDescription.split("\n")[0:-1]
+
+        async with self._session.get(
+            f"http://{self._host}/daqdata.cgi", params=params
+        ) as resp:
+            if resp.status != 200:
+                # error_text = json.loads(await resp.text())
+                raise ApiError(f"Invalid response from Biostar API: {resp.status}")
+            _LOGGER.debug("Data retrieved from Biostar, status: %s", resp.status)
+            dataValues = await resp.text()
+            dataValues = dataValues.split("\n")[0:-1]
+
+        for i in range(len(dataDescription)):
+            key, unitOfMeasurement = dataDescription[i].split(";")
+            if key == "reserved":
+                continue
+            if unitOfMeasurement.strip() == "":
+                unitOfMeasurement = None
+                dataValue = dataValues[i]
+                if dataValue == "AN":
+                    dataValue = True
+                elif dataValue == "AUS":
+                    dataValue = False
+            elif unitOfMeasurement == "°C" or unitOfMeasurement == "%":
+                dataValue = float(dataValues[i])
+            elif unitOfMeasurement == "d" or unitOfMeasurement == "h":
+                dataValue = int(dataValues[i])
+            if key in data:
+                continue # value already exists in new API
+            else:
+                data[key] = [dataValue, unitOfMeasurement]
+            _LOGGER.debug("Data retrieved from Biostar: %s", data)
 
         return data
 
