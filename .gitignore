@@ -152,3 +152,4 @@ cython_debug/
 #.idea/
 .DS_Store
 custom_components/GuntamaticBiostar/test.py
+custom_components/GuntamaticBiostar/test.py
