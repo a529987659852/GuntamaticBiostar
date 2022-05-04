@@ -1,0 +1,8 @@
+{
+  "name": "Guntamatic Biostar component",
+  "render_readme": "true",
+  "domains": [
+    "sensor",
+    "binary_sensor"
+  ]
+}
