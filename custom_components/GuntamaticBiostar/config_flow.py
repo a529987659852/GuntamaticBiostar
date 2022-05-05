@@ -1,4 +1,4 @@
-"""The openwbmqtt component for controlling the openWB wallbox via home assistant / MQTT"""
+"""The GuntamaticBiostar component for controlling the Guntamatic Biostar heating via home assistant / API"""
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigFlow
@@ -8,7 +8,7 @@ from .const import DATA_SCHEMA, DOMAIN
 
 
 class GuntamaticBiostarConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Configuration flow for the configuration of the openWB integration. When added by the user, he/she
+    """Configuration flow for the configuration of the GuntamaticBiostar integration. When added by the user, he/she
     must provide configuration values as defined in DATA_SCHEMA."""
 
     async def async_step_user(self, user_input=None):

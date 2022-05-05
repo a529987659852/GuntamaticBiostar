@@ -37,10 +37,8 @@ DATA_SCHEMA_API_KEY = "api_key"
 # Data schema required by configuration flow
 DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(DATA_SCHEMA_HOST, default="192.168.0.34"): cv.string,
-        vol.Required(
-            DATA_SCHEMA_API_KEY, default="2261A9253E129CBDB497B755F9962E700879"
-        ): cv.string,
+        vol.Required(DATA_SCHEMA_HOST): cv.string,
+        vol.Required(DATA_SCHEMA_API_KEY): cv.string,
     }
 )
 
@@ -94,13 +92,13 @@ SENSOR_DESC = [
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
-    SensorEntityDescription(
-        key="Raumtemp. HK 0",
-        name="Raumtemp. HK 0",
-        device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
+    # SensorEntityDescription(
+    #     key="Raumtemp. HK 0",
+    #     name="Raumtemp. HK 0",
+    #     device_class=SensorDeviceClass.TEMPERATURE,
+    #     native_unit_of_measurement=TEMP_CELSIUS,
+    #     state_class=SensorStateClass.MEASUREMENT,
+    # ),
     SensorEntityDescription(
         key="Vorlauf Ist 1",
         name="Vorlauf Ist 1",
@@ -125,14 +123,14 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Servicezeit",
         name="Servicezeit",
-        #device_class=SensorDeviceClass.DURATION,
+        # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_DAYS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Asche leeren in",
         name="Asche leeren in",
-        #device_class=SensorDeviceClass.DURATION,
+        # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_HOURS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -197,7 +195,7 @@ SENSOR_DESC = [
         state_class=SensorStateClass.MEASUREMENT,
         # entity_category=EntityCategory.DIAGNOSTIC,
     ),
-# Daten vom alten API
+    # Daten vom alten API
     SensorEntityDescription(
         key="Austragmotor",
         name="Austragmotor",
@@ -239,14 +237,14 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-    ),    
+    ),
     SensorEntityDescription(
         key="Rücklauftemp.",
         name="Rücklauftemperatur",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-    ), 
+    ),
     SensorEntityDescription(
         key="Saugzuggebläse",
         name="Saugzuggebläse",
@@ -260,14 +258,14 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-    ), 
+    ),
     SensorEntityDescription(
         key="Vorlauf Soll 2",
         name="Vorlauf Soll 2",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-    ), 
+    ),
     SensorEntityDescription(
         key="Wirkungsgrad",
         name="Wirkungsgrad",
@@ -275,22 +273,39 @@ SENSOR_DESC = [
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
     ),
+    SensorEntityDescription(
+        key="Störung 0",
+        name="Störung 0",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    SensorEntityDescription(
+        key="Störung 1",
+        name="Störung 1",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    SensorEntityDescription(
+        key="Kesselzustand-Nr.",
+        name="Kesselzustand-Nr.",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    SensorEntityDescription(
+        key="Version",
+        name="Version",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_visible_default=False,
+    ),
+    SensorEntityDescription(
+        key="Serial",
+        name="Serial",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_visible_default=False,
+    ),
 ]
-"""
-TODO
-Betrieb: Regelung --> Betriebscode?
-Ladeprogramm
-Einschub-Laufzeit
-Rostreinigung in
-Kipprost
-Saugzug
-G1 soll -> altes API
-Rücklauftemp  -> altes API
-Wirkungsgrad  -> altes API
-
-
-Abgastemperatur --> nicht im API
-"""
 
 BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
@@ -323,7 +338,7 @@ BINARY_SENSOR_DESC = [
         name="Kesselfreigabe",
         device_class=BinarySensorDeviceClass.POWER,
     ),
-# Daten vom alten aPI
+    # Daten vom alten aPI
     BinarySensorEntityDescription(
         key="Austragungsgebläse",
         name="Austragungsgebläse",
@@ -345,20 +360,3 @@ BINARY_SENSOR_DESC = [
         device_class=BinarySensorDeviceClass.POWER,
     ),
 ]
-"""
-TODO
-Pumpe HKP 1
-Mischer 1 -> altes API
-Pumpe HKP 2
-Mischer 2 -> altes API
-Pufferpumpe
-Austragungsgebläse
-Austragungsmotor
-Füllstand
-Mischer Kesselkreis HP0
-Lambda Heizung
-TKS -> altes API
-STB -> altes API
-KFR
-Zündung
-"""

@@ -1,6 +1,5 @@
+"""The GuntamaticBiostar component for controlling the Guntamatic Biostar heating via home assistant / API"""
 from __future__ import annotations
-
-import logging
 
 from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
@@ -17,9 +16,6 @@ from . import BiostarUpdateCoordinator
 
 # Import global values.
 from .const import BINARY_SENSOR_DESC, DOMAIN, MANUFACTURER, MODEL
-
-# Import global values.
-_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(

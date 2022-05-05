@@ -1,3 +1,5 @@
+"""The GuntamaticBiostar component for controlling the Guntamatic Biostar heating via home assistant / API"""
+
 from __future__ import annotations
 
 import logging
@@ -5,6 +7,7 @@ import logging
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.device_registry import async_get as async_get_dev_reg
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
@@ -15,9 +18,6 @@ from . import BiostarUpdateCoordinator
 
 # Import global values.
 from .const import DOMAIN, MANUFACTURER, MODEL, SENSOR_DESC
-
-# Import global values.
-_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -62,6 +62,30 @@ class GuntamaticSensor(CoordinatorEntity[BiostarUpdateCoordinator], SensorEntity
     @property
     def native_value(self) -> StateType:
         try:
+            deviceInfo = ["Version", "Serial"]
+            if self.entity_description.key.startswith(tuple(deviceInfo)):
+                device_registry = async_get_dev_reg(self.hass)
+                device = device_registry.async_get_device(
+                    self.device_info.get("identifiers")
+                )
+
+                if "version" in self.entity_id.lower():
+                    device_registry.async_update_device(
+                        device.id,
+                        sw_version=self._sensor_data.get(self.entity_description.key)[
+                            0
+                        ],
+                    )
+                elif "serial" in self.entity_id.lower():
+                    device_registry.async_update_device(
+                        device.id,
+                        hw_version=str(
+                            self._sensor_data.get(self.entity_description.key)[0]
+                        ),
+                    )
+
+                device_registry._update_device
+
             return self._sensor_data.get(self.entity_description.key)[0]
         except:
             return self._sensor_data.get(self.entity_description.key)

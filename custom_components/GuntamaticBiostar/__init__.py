@@ -68,29 +68,26 @@ class Biostar:
         self._session = session
 
     async def _async_get_data(self) -> dict[str, Any]:
-        """Retrieve data from AccuWeather API."""
+        """Retrieve data from Guntamatic API."""
         data = {}
         params = {"key": self._api_key}
         async with self._session.get(
             f"http://{self._host}/ext/daqdesc.cgi", params=params
         ) as resp:
-            if resp.status != 200:
-                # error_text = json.loads(await resp.text())
-                raise ApiError(f"Invalid response from Biostar API: {resp.status}")
-            _LOGGER.debug("Data retrieved from Biostar, status: %s", resp.status)
+            if not resp.status == 200:
+                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
+                raise UpdateFailed
 
             dataDescription = await resp.json()
-            # dataDescription = dataDescription.split('\n')[0:-1]
 
         async with self._session.get(
             f"http://{self._host}/ext/daqdata.cgi", params=params
         ) as resp:
-            if resp.status != 200:
-                # error_text = json.loads(await resp.text())
-                raise ApiError(f"Invalid response from Biostar API: {resp.status}")
-            _LOGGER.debug("Data retrieved from Bioestar, status: %s", resp.status)
+            if not resp.status == 200:
+                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
+                raise UpdateFailed
+
             dataValues = await resp.json()
-            # dataValues = dataValues.split('\n')[0:-1]
 
         for i in range(len(dataDescription)):
             key = dataDescription[i].get("name")
@@ -102,20 +99,20 @@ class Biostar:
         async with self._session.get(
             f"http://{self._host}/daqdesc.cgi", params=params
         ) as resp:
-            if resp.status != 200:
-                # error_text = json.loads(await resp.text())
-                raise ApiError(f"Invalid response from Biostar API: {resp.status}")
-            _LOGGER.debug("Data retrieved from Biostar, status: %s", resp.status)
+            if not resp.status == 200:
+                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
+                raise UpdateFailed
+
             dataDescription = await resp.text()
             dataDescription = dataDescription.split("\n")[0:-1]
 
         async with self._session.get(
             f"http://{self._host}/daqdata.cgi", params=params
         ) as resp:
-            if resp.status != 200:
-                # error_text = json.loads(await resp.text())
-                raise ApiError(f"Invalid response from Biostar API: {resp.status}")
-            _LOGGER.debug("Data retrieved from Biostar, status: %s", resp.status)
+            if not resp.status == 200:
+                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
+                raise UpdateFailed
+
             dataValues = await resp.text()
             dataValues = dataValues.split("\n")[0:-1]
 
@@ -123,6 +120,8 @@ class Biostar:
             key, unitOfMeasurement = dataDescription[i].split(";")
             if key == "reserved":
                 continue
+            if key in data:
+                continue  # value already exists in new API
             if unitOfMeasurement.strip() == "":
                 unitOfMeasurement = None
                 dataValue = dataValues[i]
@@ -134,11 +133,10 @@ class Biostar:
                 dataValue = float(dataValues[i])
             elif unitOfMeasurement == "d" or unitOfMeasurement == "h":
                 dataValue = int(dataValues[i])
-            if key in data:
-                continue # value already exists in new API
-            else:
-                data[key] = [dataValue, unitOfMeasurement]
-            _LOGGER.debug("Data retrieved from Biostar: %s", data)
+
+            data[key] = [dataValue, unitOfMeasurement]
+
+        _LOGGER.debug("Data retrieved from Biostar: %s", data)
 
         return data
 
@@ -162,17 +160,8 @@ class BiostarUpdateCoordinator(DataUpdateCoordinator):
         self.my_api = Biostar(api_key=api_key, session=session, host=host)
 
     async def _async_update_data(self) -> dict[str, Any]:
-        """Fetch data from API endpoint.
-
-        This is the place to pre-process the data to lookup tables
-        so entities can quickly look up their data.
-        """
-        try:
-            # Note: asyncio.TimeoutError and aiohttp.ClientError are already
-            # handled by the data update coordinator.
-            async with async_timeout.timeout(5):
-                currentData = await self.my_api._async_get_data()
-        except:
-            raise UpdateFailed
+        """Fetch data from API endpoint."""
+        async with async_timeout.timeout(10):
+            currentData = await self.my_api._async_get_data()
 
         return currentData
