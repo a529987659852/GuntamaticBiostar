@@ -296,14 +296,14 @@ SENSOR_DESC = [
         name="Version",
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
-        entity_registry_visible_default=False,
+        # entity_registry_visible_default=False,
     ),
     SensorEntityDescription(
         key="Serial",
         name="Serial",
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
-        entity_registry_visible_default=False,
+        # entity_registry_visible_default=False,
     ),
 ]
 
