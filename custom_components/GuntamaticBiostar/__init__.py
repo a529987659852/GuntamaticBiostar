@@ -46,16 +46,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     return unload_ok
 
-
-class ApiError(Exception):
-    """Raised when AccuWeather API request ended in error."""
-
-    def __init__(self, status: str):
-        """Initialize."""
-        super().__init__(status)
-        self.status = status
-
-
 class Biostar:
     def __init__(
         self,
@@ -71,23 +61,18 @@ class Biostar:
         """Retrieve data from Guntamatic API."""
         data = {}
         params = {"key": self._api_key}
-        async with self._session.get(
-            f"http://{self._host}/ext/daqdesc.cgi", params=params
-        ) as resp:
-            if not resp.status == 200:
-                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
-                raise UpdateFailed
+        # Get data from new API
+        APIEndpoints = ['/ext/daqdesc.cgi', '/ext/daqdata.cgi']
+        for API in APIEndpoints:
+            async with self._session.get(f"http://{self._host}{API}", params=params) as resp:
+                if not resp.status == 200:
+                    _LOGGER.error(f"Invalid response from Biostar API: {API}, {resp.status}")
+                    raise UpdateFailed
 
-            dataDescription = await resp.json()
-
-        async with self._session.get(
-            f"http://{self._host}/ext/daqdata.cgi", params=params
-        ) as resp:
-            if not resp.status == 200:
-                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
-                raise UpdateFailed
-
-            dataValues = await resp.json()
+                if API == APIEndpoints[0]:
+                    dataDescription = await resp.json()
+                elif API == APIEndpoints[1]:
+                    dataValues = await resp.json()
 
         for i in range(len(dataDescription)):
             key = dataDescription[i].get("name")
@@ -96,32 +81,24 @@ class Biostar:
             data[key] = [dataValue, unitOfMeasurement]
 
         # Get data from old API
-        async with self._session.get(
-            f"http://{self._host}/daqdesc.cgi", params=params
-        ) as resp:
-            if not resp.status == 200:
-                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
-                raise UpdateFailed
+        APIEndpoints = ['/daqdesc.cgi', '/daqdata.cgi',]
+        for API in APIEndpoints:
+            async with self._session.get(f"http://{self._host}{API}", params=params) as resp:
+                if not resp.status == 200:
+                    _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
+                    raise UpdateFailed
 
-            dataDescription = await resp.text()
-            dataDescription = dataDescription.split("\n")[0:-1]
-
-        async with self._session.get(
-            f"http://{self._host}/daqdata.cgi", params=params
-        ) as resp:
-            if not resp.status == 200:
-                _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
-                raise UpdateFailed
-
-            dataValues = await resp.text()
-            dataValues = dataValues.split("\n")[0:-1]
+                if API == APIEndpoints[0]:
+                    dataDescription = await resp.text()
+                    dataDescription = dataDescription.split("\n")[0:-1]
+                elif API == APIEndpoints[1]:
+                    dataValues = await resp.text()
+                    dataValues = dataValues.split("\n")[0:-1]
 
         for i in range(len(dataDescription)):
             key, unitOfMeasurement = dataDescription[i].split(";")
-            if key == "reserved":
+            if key == "reserved" or key in data: #value is not displayed or already exists in new API
                 continue
-            if key in data:
-                continue  # value already exists in new API
             if unitOfMeasurement.strip() == "":
                 unitOfMeasurement = None
                 dataValue = dataValues[i]

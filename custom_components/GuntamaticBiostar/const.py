@@ -1,5 +1,6 @@
 """The GuntamaticBiostar component for controlling the Guntamatic Biostar heating via home assistant / API"""
 from __future__ import annotations
+from re import I
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
@@ -49,6 +50,7 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:sun-thermometer-outline',
     ),
     SensorEntityDescription(
         key="Kesseltemperatur",
@@ -60,9 +62,10 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Leistung",
         name="Leistung",
-        device_class=SensorDeviceClass.APPARENT_POWER,
+        device_class=SensorDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
     ),
     SensorEntityDescription(
         key="CO2 Gehalt",
@@ -77,6 +80,7 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:thermometer-chevron-up',
     ),
     SensorEntityDescription(
         key="Puffer unten",
@@ -84,6 +88,7 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:thermometer-chevron-down',
     ),
     SensorEntityDescription(
         key="Warmwasser 0",
@@ -119,6 +124,7 @@ SENSOR_DESC = [
         #   device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_HOURS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:counter",
     ),
     SensorEntityDescription(
         key="Servicezeit",
@@ -126,6 +132,7 @@ SENSOR_DESC = [
         # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_DAYS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:account-wrench',
     ),
     SensorEntityDescription(
         key="Asche leeren in",
@@ -133,6 +140,7 @@ SENSOR_DESC = [
         # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_HOURS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:delete-empty',
     ),
     SensorEntityDescription(
         key="Vorlauf Ist 0",
@@ -147,6 +155,7 @@ SENSOR_DESC = [
         device_class=None,
         native_unit_of_measurement=VOLUME_CUBIC_METERS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:counter",
     ),
     SensorEntityDescription(
         key="Pufferladung",
@@ -170,6 +179,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
         # entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:cog'
     ),
     SensorEntityDescription(
         key="Progamm HK0",
@@ -178,6 +188,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
         # entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:cog'
     ),
     SensorEntityDescription(
         key="Progamm HK1",
@@ -186,6 +197,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
         # entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:cog'
     ),
     SensorEntityDescription(
         key="Progamm HK2",
@@ -194,14 +206,16 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
         # entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:cog'
     ),
     # Daten vom alten API
     SensorEntityDescription(
         key="Austragmotor",
         name="Austragmotor",
-        device_class=SensorDeviceClass.APPARENT_POWER,
+        device_class=SensorDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
     ),
     SensorEntityDescription(
         key="CO2 Soll",
@@ -216,20 +230,23 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:thermometer-lines',
     ),
     SensorEntityDescription(
         key="Rauchgasauslastung",
         name="Rauchgasauslastung",
-        device_class=SensorDeviceClass.APPARENT_POWER,
+        device_class=SensorDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
     ),
     SensorEntityDescription(
         key="Rost",
         name="Rost",
-        device_class=SensorDeviceClass.APPARENT_POWER,
+        device_class=SensorDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
     ),
     SensorEntityDescription(
         key="Rücklauftemp. Soll",
@@ -237,6 +254,7 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:thermometer-lines',
     ),
     SensorEntityDescription(
         key="Rücklauftemp.",
@@ -248,9 +266,10 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Saugzuggebläse",
         name="Saugzuggebläse",
-        device_class=SensorDeviceClass.APPARENT_POWER,
+        device_class=SensorDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
     ),
     SensorEntityDescription(
         key="Vorlauf Soll 1",
@@ -258,6 +277,7 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:thermometer-lines',
     ),
     SensorEntityDescription(
         key="Vorlauf Soll 2",
@@ -265,25 +285,29 @@ SENSOR_DESC = [
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
+        icon='mdi:thermometer-lines',
     ),
     SensorEntityDescription(
         key="Wirkungsgrad",
         name="Wirkungsgrad",
-        device_class=SensorDeviceClass.APPARENT_POWER,
+        device_class=SensorDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
     ),
     SensorEntityDescription(
         key="Störung 0",
         name="Störung 0",
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:alert-circle',
     ),
     SensorEntityDescription(
         key="Störung 1",
         name="Störung 1",
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:alert-circle',
     ),
     SensorEntityDescription(
         key="Kesselzustand-Nr.",
@@ -336,7 +360,6 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Kesselfreigabe",
         name="Kesselfreigabe",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     # Daten vom alten aPI
     BinarySensorEntityDescription(
@@ -347,7 +370,6 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Füllstand",
         name="Füllstand",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Mischer 1",
