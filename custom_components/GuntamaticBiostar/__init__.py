@@ -46,6 +46,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     return unload_ok
 
+
 class Biostar:
     def __init__(
         self,
@@ -62,11 +63,15 @@ class Biostar:
         data = {}
         params = {"key": self._api_key}
         # Get data from new API
-        APIEndpoints = ['/ext/daqdesc.cgi', '/ext/daqdata.cgi']
+        APIEndpoints = ["/ext/daqdesc.cgi", "/ext/daqdata.cgi"]
         for API in APIEndpoints:
-            async with self._session.get(f"http://{self._host}{API}", params=params) as resp:
+            async with self._session.get(
+                f"http://{self._host}{API}", params=params
+            ) as resp:
                 if not resp.status == 200:
-                    _LOGGER.error(f"Invalid response from Biostar API: {API}, {resp.status}")
+                    _LOGGER.error(
+                        f"Invalid response from Biostar API: {API}, {resp.status}"
+                    )
                     raise UpdateFailed
 
                 if API == APIEndpoints[0]:
@@ -81,9 +86,14 @@ class Biostar:
             data[key] = [dataValue, unitOfMeasurement]
 
         # Get data from old API
-        APIEndpoints = ['/daqdesc.cgi', '/daqdata.cgi',]
+        APIEndpoints = [
+            "/daqdesc.cgi",
+            "/daqdata.cgi",
+        ]
         for API in APIEndpoints:
-            async with self._session.get(f"http://{self._host}{API}", params=params) as resp:
+            async with self._session.get(
+                f"http://{self._host}{API}", params=params
+            ) as resp:
                 if not resp.status == 200:
                     _LOGGER.error(f"Invalid response from Biostar API: {resp.status}")
                     raise UpdateFailed
@@ -97,7 +107,9 @@ class Biostar:
 
         for i in range(len(dataDescription)):
             key, unitOfMeasurement = dataDescription[i].split(";")
-            if key == "reserved" or key in data: #value is not displayed or already exists in new API
+            if (
+                key == "reserved" or key in data
+            ):  # value is not displayed or already exists in new API
                 continue
             if unitOfMeasurement.strip() == "":
                 unitOfMeasurement = None
@@ -116,6 +128,30 @@ class Biostar:
         _LOGGER.debug("Data retrieved from Biostar: %s", data)
 
         return data
+
+    async def setProgram(self, programID: str) -> bool:
+        params = {"syn": "PR001", "value": programID, "key": self._api_key}
+        try:
+            async with self._session.get(
+                f"http://{self._host}/ext/parset.cgi", params=params
+            ) as resp:
+                status = await resp.json()
+            if "ack" in status:
+                _LOGGER.debug(
+                    f"Biostar heating program successfully set to: {programID}"
+                )
+                return True
+            elif "err" in status:
+                _LOGGER.error(
+                    f"Biostar heating program not successfully set: {programID}"
+                )
+                return False
+
+        except:
+            _LOGGER.error(
+                f"Biostar heating program not successfully set: {status.get('err')}"
+            )
+            return False
 
 
 class BiostarUpdateCoordinator(DataUpdateCoordinator):
@@ -142,3 +178,14 @@ class BiostarUpdateCoordinator(DataUpdateCoordinator):
             currentData = await self.my_api._async_get_data()
 
         return currentData
+
+    async def setProgram(self, programID: str) -> bool:
+        try:
+            async with async_timeout.timeout(5):
+                result = await self.my_api.setProgram(programID)
+
+            await self.async_refresh()
+            return result
+        except:
+            _LOGGER.error(f"Error changing Biostar heating program to: {programID}")
+            return False
