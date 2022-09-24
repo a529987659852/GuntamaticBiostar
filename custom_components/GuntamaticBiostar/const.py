@@ -131,7 +131,7 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Betriebszeit",
         name="Betriebszeit",
-        device_class=SensorDeviceClass.DURATION,
+        # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_HOURS,
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:counter",
@@ -139,7 +139,7 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Servicezeit",
         name="Servicezeit",
-        device_class=SensorDeviceClass.DURATION,
+        # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_DAYS,
         state_class=SensorStateClass.MEASUREMENT,
         icon='mdi:account-wrench',
@@ -147,7 +147,7 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Asche leeren in",
         name="Asche leeren in",
-        device_class=SensorDeviceClass.DURATION,
+        # device_class=SensorDeviceClass.DURATION,
         native_unit_of_measurement=TIME_HOURS,
         state_class=SensorStateClass.MEASUREMENT,
         icon='mdi:delete-empty',
@@ -345,27 +345,22 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Pumpe HP0",
         name="Pumpe HP0",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="P Warmwasser 0",
         name="P Warmwasser 0",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Heizkreis 0",
         name="Heizkreis 0",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Heizkreis 1",
         name="Heizkreis 1",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Heizkreis 2",
         name="Heizkreis 2",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Kesselfreigabe",
@@ -375,7 +370,6 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Austragungsgebläse",
         name="Austragungsgebläse",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Füllstand",
@@ -384,12 +378,10 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Mischer 1",
         name="Mischer 1",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
     BinarySensorEntityDescription(
         key="Mischer 2",
         name="Mischer 2",
-        device_class=BinarySensorDeviceClass.POWER,
     ),
 ]
 
