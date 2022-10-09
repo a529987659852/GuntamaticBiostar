@@ -339,6 +339,14 @@ SENSOR_DESC = [
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_visible_default=False,
     ),
+    SensorEntityDescription(
+        key="Betrieb",
+        name="Betrieb",
+        state_class=None,
+        entity_registry_visible_default=True,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon='mdi:cog'
+    ),
 ]
 
 BINARY_SENSOR_DESC = [
