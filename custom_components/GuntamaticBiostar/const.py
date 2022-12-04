@@ -107,13 +107,13 @@ SENSOR_DESC = [
         native_unit_of_measurement=TEMP_CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
-    # SensorEntityDescription(
-    #     key="Raumtemp. HK 0",
-    #     name="Raumtemp. HK 0",
-    #     device_class=SensorDeviceClass.TEMPERATURE,
-    #     native_unit_of_measurement=TEMP_CELSIUS,
-    #     state_class=SensorStateClass.MEASUREMENT,
-    # ),
+    SensorEntityDescription(
+        key="Raumtemp. HK 1",
+        name="Raumtemp. HK 1",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=TEMP_CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
     SensorEntityDescription(
         key="Vorlauf Ist 1",
         name="Vorlauf Ist 1",
