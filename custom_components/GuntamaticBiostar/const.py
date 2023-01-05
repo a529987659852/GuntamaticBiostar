@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.binary_sensor import (
-    BinarySensorDeviceClass,
+    # BinarySensorDeviceClass,
     BinarySensorEntityDescription,
 )
 from homeassistant.components.sensor import (
@@ -18,11 +18,10 @@ from homeassistant.components.select import SelectEntityDescription
 
 from homeassistant.const import (
     PERCENTAGE,
-    TEMP_CELSIUS,
-    TIME_DAYS,
-    TIME_HOURS,
-    VOLUME_CUBIC_METERS,
     Platform,
+    UnitOfTemperature,
+    UnitOfTime,
+    UnitOfVolume,
 )
 from homeassistant.helpers.entity import EntityCategory
 
@@ -47,26 +46,29 @@ DATA_SCHEMA = vol.Schema(
     }
 )
 
+
 @dataclass
 class guntamaticSelectEntityDescription(SelectEntityDescription):
     """Enhance the select entity description for Guntamatic"""
+
     optionsMapping: dict | None = None
     modes: list | None = None
+
 
 SENSOR_DESC = [
     SensorEntityDescription(
         key="Aussentemperatur",
         name="Außentemperatur",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-        icon='mdi:sun-thermometer-outline',
+        icon="mdi:sun-thermometer-outline",
     ),
     SensorEntityDescription(
         key="Kesseltemperatur",
         name="Kesseltemperatur",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
@@ -88,51 +90,51 @@ SENSOR_DESC = [
         key="Puffer oben",
         name="Puffer oben",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-        icon='mdi:thermometer-chevron-up',
+        icon="mdi:thermometer-chevron-up",
     ),
     SensorEntityDescription(
         key="Puffer unten",
         name="Puffer unten",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
-        icon='mdi:thermometer-chevron-down',
+        icon="mdi:thermometer-chevron-down",
     ),
     SensorEntityDescription(
         key="Warmwasser 0",
         name="Warmwasser 0",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Raumtemp. HK 1",
         name="Raumtemp. HK 1",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Vorlauf Ist 1",
         name="Vorlauf Ist 1",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Vorlauf Ist 2",
         name="Vorlauf Ist 2",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Betriebszeit",
         name="Betriebszeit",
         # device_class=SensorDeviceClass.DURATION,
-        native_unit_of_measurement=TIME_HOURS,
+        native_unit_of_measurement=UnitOfTime.HOURS,
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:counter",
     ),
@@ -140,30 +142,30 @@ SENSOR_DESC = [
         key="Servicezeit",
         name="Servicezeit",
         # device_class=SensorDeviceClass.DURATION,
-        native_unit_of_measurement=TIME_DAYS,
+        native_unit_of_measurement=UnitOfTime.DAYS,
         state_class=SensorStateClass.MEASUREMENT,
-        icon='mdi:account-wrench',
+        icon="mdi:account-wrench",
     ),
     SensorEntityDescription(
         key="Asche leeren in",
         name="Asche leeren in",
         # device_class=SensorDeviceClass.DURATION,
-        native_unit_of_measurement=TIME_HOURS,
+        native_unit_of_measurement=UnitOfTime.HOURS,
         state_class=SensorStateClass.MEASUREMENT,
-        icon='mdi:delete-empty',
+        icon="mdi:delete-empty",
     ),
     SensorEntityDescription(
         key="Vorlauf Ist 0",
         name="Vorlauf Ist 0",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Brennstoffzähler",
         name="Brennstoffzähler",
         device_class=None,
-        native_unit_of_measurement=VOLUME_CUBIC_METERS,
+        native_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:counter",
     ),
@@ -189,7 +191,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=None,
         # entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:cog'
+        icon="mdi:cog",
     ),
     SensorEntityDescription(
         key="Progamm HK0",
@@ -198,7 +200,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=None,
         # entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:cog'
+        icon="mdi:cog",
     ),
     SensorEntityDescription(
         key="Progamm HK1",
@@ -207,7 +209,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=None,
         # entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:cog'
+        icon="mdi:cog",
     ),
     SensorEntityDescription(
         key="Progamm HK2",
@@ -216,7 +218,7 @@ SENSOR_DESC = [
         native_unit_of_measurement=None,
         state_class=None,
         # entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:cog'
+        icon="mdi:cog",
     ),
     # Daten vom alten API
     SensorEntityDescription(
@@ -238,9 +240,9 @@ SENSOR_DESC = [
         key="Kesselsolltemp",
         name="Kesselsolltemperatur",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=None,
-        icon='mdi:thermometer-lines',
+        icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
         key="Rauchgasauslastung",
@@ -262,15 +264,15 @@ SENSOR_DESC = [
         key="Rücklauftemp. Soll",
         name="Rücklauftemperatur Soll",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=None,
-        icon='mdi:thermometer-lines',
+        icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
         key="Rücklauftemp.",
         name="Rücklauftemperatur",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
@@ -285,17 +287,17 @@ SENSOR_DESC = [
         key="Vorlauf Soll 1",
         name="Vorlauf Soll 1",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=None,
-        icon='mdi:thermometer-lines',
+        icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
         key="Vorlauf Soll 2",
         name="Vorlauf Soll 2",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=None,
-        icon='mdi:thermometer-lines',
+        icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
         key="Wirkungsgrad",
@@ -310,14 +312,14 @@ SENSOR_DESC = [
         name="Störung 0",
         state_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:alert-circle',
+        icon="mdi:alert-circle",
     ),
     SensorEntityDescription(
         key="Störung 1",
         name="Störung 1",
         state_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:alert-circle',
+        icon="mdi:alert-circle",
     ),
     SensorEntityDescription(
         key="Kesselzustand-Nr.",
@@ -345,7 +347,7 @@ SENSOR_DESC = [
         state_class=None,
         entity_registry_visible_default=True,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon='mdi:cog'
+        icon="mdi:cog",
     ),
 ]
 
@@ -395,17 +397,14 @@ BINARY_SENSOR_DESC = [
 
 SELECT_DESC = [
     guntamaticSelectEntityDescription(
-        key = "Program",
-        name = "Program",
-        icon='mdi:cog',
-        modes= [
+        key="Program",
+        name="Program",
+        icon="mdi:cog",
+        modes=[
             "AUS",
             "NORMAL",
             "WARMWASSER",
         ],
-        optionsMapping = {
-            'AUS': 0, 
-            'NORMAL': 1, 
-            'WARMWASSER': 2},
+        optionsMapping={"AUS": 0, "NORMAL": 1, "WARMWASSER": 2},
     ),
 ]
