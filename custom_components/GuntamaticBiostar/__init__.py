@@ -99,7 +99,7 @@ class Biostar:
                     raise UpdateFailed
 
                 if API == APIEndpoints[0]:
-                    dataDescription = await resp.text()
+                    dataDescription = await resp.text(encoding="windows-1252")
                     dataDescription = dataDescription.split("\n")[0:-1]
                 elif API == APIEndpoints[1]:
                     dataValues = await resp.text()
