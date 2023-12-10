@@ -355,53 +355,43 @@ BINARY_SENSOR_DESC = [
     BinarySensorEntityDescription(
         key="Pumpe HP0",
         name="Pumpe HP0",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="P Warmwasser 0",
         name="P Warmwasser 0",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Heizkreis 0",
         name="Heizkreis 0",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Heizkreis 1",
         name="Heizkreis 1",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Heizkreis 2",
         name="Heizkreis 2",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Kesselfreigabe",
         name="Kesselfreigabe",
-        translation_key="onoff",
     ),
-    # Daten vom alten aPI
+    # Daten vom alten API
     BinarySensorEntityDescription(
         key="Austragungsgebläse",
         name="Austragungsgebläse",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Füllstand",
         name="Füllstand",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Mischer 1",
         name="Mischer 1",
-        translation_key="onoff",
     ),
     BinarySensorEntityDescription(
         key="Mischer 2",
         name="Mischer 2",
-        translation_key="onoff",
     ),
 ]
 

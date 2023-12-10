@@ -13,15 +13,5 @@
                 "title": "Guntamatic-Biostar-Integration in Home Assistant mittels API"
             }
         }
-    },
-    "entity": {
-        "binary_sensor": {
-            "onoff": {
-                "state": {
-                "on": "An",
-                "off": "Aus"
-                }
-            }
-        }
     }
 }
