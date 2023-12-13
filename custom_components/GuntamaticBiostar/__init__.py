@@ -102,7 +102,7 @@ class Biostar:
                     dataDescription = await resp.text(encoding="windows-1252")
                     dataDescription = dataDescription.split("\n")[0:-1]
                 elif API == APIEndpoints[1]:
-                    dataValues = await resp.text()
+                    dataValues = await resp.text(encoding="windows-1252")
                     dataValues = dataValues.split("\n")[0:-1]
 
         for i in range(len(dataDescription)):
