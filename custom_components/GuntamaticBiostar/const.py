@@ -405,6 +405,6 @@ SELECT_DESC = [
             "NORMAL",
             "WARMWASSER",
         ],
-        optionsMapping={"AUS": 0, "NORMAL": 1, "WARMWASSER": 2},
+        optionsMapping={"AUS": 0, "NORMAL": 1, "WARMWASSER": 2, "WW NACHLADEN": 6},
     ),
 ]
