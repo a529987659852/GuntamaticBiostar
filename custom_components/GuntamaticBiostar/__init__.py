@@ -2,6 +2,7 @@
 import logging
 from datetime import timedelta
 from typing import Any
+import json
 
 import async_timeout
 from aiohttp import ClientSession
@@ -74,10 +75,12 @@ class Biostar:
                     )
                     raise UpdateFailed
 
+                r = await resp.text()
+
                 if API == APIEndpoints[0]:
-                    dataDescription = await resp.json()
+                    dataDescription = json.loads(r.replace(',,', ','))
                 elif API == APIEndpoints[1]:
-                    dataValues = await resp.json()
+                    dataValues = json.loads(r.replace(',,', ','))
 
         for i in range(len(dataDescription)):
             key = dataDescription[i].get("name")
