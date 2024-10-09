@@ -181,7 +181,7 @@ SENSOR_DESC = [
         name="Betriebscode",
         device_class=None,
         native_unit_of_measurement=None,
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
@@ -234,14 +234,14 @@ SENSOR_DESC = [
         name="CO2 Soll",
         device_class=SensorDeviceClass.CO2,
         native_unit_of_measurement=PERCENTAGE,
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="Kesselsolltemp",
         name="Kesselsolltemperatur",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
@@ -265,7 +265,7 @@ SENSOR_DESC = [
         name="Rücklauftemperatur Soll",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
@@ -288,7 +288,7 @@ SENSOR_DESC = [
         name="Vorlauf Soll 1",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
@@ -296,7 +296,7 @@ SENSOR_DESC = [
         name="Vorlauf Soll 2",
         device_class=SensorDeviceClass.TEMPERATURE,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:thermometer-lines",
     ),
     SensorEntityDescription(
@@ -324,7 +324,7 @@ SENSOR_DESC = [
     SensorEntityDescription(
         key="Kesselzustand-Nr.",
         name="Kesselzustand-Nr.",
-        state_class=None,
+        state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
