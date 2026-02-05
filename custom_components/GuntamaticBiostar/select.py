@@ -59,7 +59,7 @@ class GuntamaticSelect(CoordinatorEntity[BiostarUpdateCoordinator], SelectEntity
         super().__init__(coordinator=coordinator)
         self.entity_description = description
         self._attr_unique_id = slugify(f"{uniqueID}-{description.name}")
-        self.entity_id = slugify(f"{ENTITY_DOMAIN}.{uniqueID}-{description.name}")
+        self.entity_id = f"{ENTITY_DOMAIN}.{slugify(f'{uniqueID}_{description.name}')}"
         self._sensor_data = coordinator.data
         self.device_friendly_name = device_friendly_name
 
