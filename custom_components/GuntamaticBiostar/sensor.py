@@ -53,7 +53,7 @@ class GuntamaticSensor(CoordinatorEntity[BiostarUpdateCoordinator], SensorEntity
         super().__init__(coordinator=coordinator)
         self.entity_description = description
         self._attr_unique_id = slugify(f"{uniqueID}-{description.name}")
-        self.entity_id = f"sensor.{uniqueID}-{description.name}"
+        self.entity_id = slugify(f"sensor.{uniqueID}-{description.name}")
         self._sensor_data = coordinator.data
         self.device_friendly_name = device_friendly_name
 
