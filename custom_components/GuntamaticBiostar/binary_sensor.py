@@ -55,7 +55,7 @@ class GuntamaticBinarySensor(
         super().__init__(coordinator)
         self.entity_description = description
         self._attr_unique_id = slugify(f"{uniqueID}-{description.name}")
-        self.entity_id = slugify(f"binary_sensor.{uniqueID}-{description.name}")
+        self.entity_id = f"binary_sensor.{slugify(f'{uniqueID}_{description.name}')}"
         self._sensor_data = coordinator.data
         self.device_friendly_name = device_friendly_name
 
